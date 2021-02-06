@@ -1,7 +1,7 @@
 ---
 title: "Lab 01 - Hello R"
-author: "Insert your name here"
-date: "Insert date here"
+author: "Natalie Frye"
+date: "01/30/2021"
 output: github_document
 ---
 
@@ -16,16 +16,14 @@ library(datasauRus)
 
 ### Exercise 1
 
-Remove this text, and add your answer for Exercise 1 here.
+There are 1846 rows and 3 columns. The variables included are the dataset, which indicates which dataset the data are from; x, which are the x-values; and y, which are the y-values.
 
 ### Exercise 2
 
-The answers for this Exercise are given for you below.
-But you should clean up some of the narrative so that it only includes what you want to turn in.
 
 First let's plot the data in the dino dataset:
 
-```{r plot-dino, fig.height=3, fig.width=6}
+```{r plot-dino, fig.height=3, fig.width=4.7}
 dino_data <- datasaurus_dozen %>%
   filter(dataset == "dino")
 
@@ -42,37 +40,56 @@ dino_data %>%
 
 ### Exercise 3
 
-Add code and narrative as needed.
-Note that the R chunks are labelled with `plot-star` and `cor-star` to provide spaces to place the code for plotting and calculating the correlation coefficient.
-To finish, clean up the narrative by removing these instructions.
+Plotting of star dataset: 
 
-Blah blah blah...
+```{r plot-star, fig.height=4.2, fig.width=4.5}
+dino_data <- datasaurus_dozen %>%
+  filter(dataset == "star")
 
-```{r plot-star}
-
+ggplot(data = dino_data, mapping = aes(x = x, y = y)) +
+  geom_point()
 ```
 
-I'm some text, you should replace me with more meaningful text...
+Correlation of x and y for star dataset:
 
 ```{r cor-star}
-
+dino_data %>%
+  summarize(r = cor(x, y))
 ```
+
+It's quite similar to the correlation for the dino dataset.
 
 ### Exercise 4
 
-Add code and narrative as needed.
-Note that two R chunks are given but they are not labeled.
-Use the convention from above to name them appropriately.
+Plot of the circle dataset: 
 
-```{r}
+```{r fig.height=3, fig.width=3}
+dino_data <- datasaurus_dozen %>%
+  filter(dataset == "circle")
 
+ggplot(data = dino_data, mapping = aes(x = x, y = y)) +
+  geom_point()
 ```
 
-```{r}
+Correlation of x and y in the circle dataset: 
 
+```{r}
+dino_data %>%
+  summarize(r = cor(x, y))
 ```
+
+Also a very similar correlation.
 
 ### Exercise 5
 
-Add code and narrative as needed.
-To add R chunks either type out the backticks, curly braces, and the letter `r` or use the Insert chunk button above, green C+.
+```{r fig.height=5, fig.width=5}
+ggplot(datasaurus_dozen, aes(x = x, y = y, color = dataset))+
+  geom_point()+
+  facet_wrap(~ dataset, ncol = 3) +
+  theme(legend.position = "none")
+  
+datasaurus_dozen %>%
+  group_by(dataset) %>%
+  summarize(r = cor(x, y)) %>%
+  print(13)
+```
